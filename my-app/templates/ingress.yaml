@@ -1,18 +1,18 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.ingress.enabled | default false }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-name: {{ .Release.Name }}
+  name: {{ .Release.Name }}
 spec:
-rules:
-- host: my-app.local
-http:
-paths:
-- path: /
-pathType: Prefix
-backend:
-service:
-name: {{ .Release.Name }}
-port:
-number: {{ .Values.service.port }}
+  rules:
+    - host: my-app.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}
+                port:
+                  number: {{ .Values.service.port | default 80 }}
 {{- end }}
